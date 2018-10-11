@@ -3,7 +3,6 @@ import seaborn as sn
 import matplotlib.pyplot as plt
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, confusion_matrix, roc_curve, auc
 
@@ -58,7 +57,6 @@ def exercise(classifier, classifier_name):
     y = bank['pep']
     
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-    
     
     
     classifier.fit(X_train, y_train)
