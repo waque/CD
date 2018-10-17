@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, confusion_matrix, roc_curve, auc
 from sklearn import tree
 import graphviz
+from sklearn.ensemble import RandomForestClassifier
 
 
 def sensibility(confusion_matrix):
@@ -90,8 +91,38 @@ def ex1():
     predicted = clf.predict(X_test)
     conf_matrix = confusion_matrix(y_test, predicted)
     print('Accuracy random splitter {}'.format(accuracy_score(y_test, predicted)))
-    dot_data = tree.export_graphviz(clf, out_file=None) 
+    dot_data = tree.export_graphviz(clf, out_file=None, filled=True, rounded=True,special_characters=True) 
     graph = graphviz.Source(dot_data) 
-    graph.render("iris") 
+    graph.render("cancer") 
+
+def ex2_aux(classifier, X_train, X_test, y_train, y_test):
+    classifier.fit(X_train, y_train)
+    predicted = classifier.predict(X_test)
+    conf_matrix = confusion_matrix(y_test, predicted)
+    return predicted
     
-ex1()
+def ex2():
+
+    X = cancer.iloc[:, cancer.columns != 'Class']
+    y = cancer['Class']
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+    #default
+    clf = RandomForestClassifier()
+    sum = 0
+    for i in range(0,100):
+        sum += accuracy_score(y_test, ex2_aux(clf, X_train, X_test, y_train, y_test))    
+    print('Average Accuracy random forest default' + str(sum/100))
+
+    #default
+    clf = RandomForestClassifier(n_estimators=15)
+    sum = 0
+    for i in range(0,100):
+        sum += accuracy_score(y_test, ex2_aux(clf, X_train, X_test, y_train, y_test))
+    print('Average Accuracy random forest 50 trees' + str(sum/100))
+
+
+def ex3():
+    credit = pd.read_csv('credit.csv')
+
+    #REKT
