@@ -1,8 +1,13 @@
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import accuracy_score, confusion_matrix
 
+
+def print_dict(dic, excluded_keys=[]):
+    for key in dic:
+        if key not in excluded_keys:
+            print('{}: {}'.format( key, dic[key]))
 
 def sensibility(confusion_matrix):
     tn, fp, fn, tp = confusion_matrix.ravel()
@@ -16,6 +21,9 @@ def specificity(confusion_matrix):
 
 def standard_deviation(a):
     return np.std(a)
+
+def mean(a):
+    return np.mean(a)
 
 def sad(a, b):
     return np.sum(abs(a - b))
@@ -38,14 +46,18 @@ def transform_X(X):
 def transform_y(y):
     return y.astype('category').cat.codes
 
-def split_dataset(dataset, y_name):
+def split_dataset(dataset, y_name, missing_values=None):
+    if missing_values:
+        for value in missing_values:
+            dataset = dataset[~dataset.eq(value).any(1)]
+    
     X = dataset.iloc[:, dataset.columns != y_name]
     y = dataset[y_name]
     
     return X, y
 
-def split_dataset_transformed(dataset, y_name):
-    X, y = split_dataset(dataset, y_name)
+def split_dataset_transformed(dataset, y_name, missing_values=None):
+    X, y = split_dataset(dataset, y_name, missing_values)
     return transform_X(X), transform_y(y)
 
 def split_train_test(X, y, test_size=0.3):
@@ -53,7 +65,7 @@ def split_train_test(X, y, test_size=0.3):
     
     return train_test_split(X, y, test_size=test_size, random_state=42)
 
-def classifier_statistics(clf, X_train, y_train, X_test, y_test):
+def classifier_statistics(clf, X_train, X_test, y_train, y_test):
     res = {}
     
     clf.fit(X_train, y_train)
@@ -69,7 +81,16 @@ def classifier_statistics(clf, X_train, y_train, X_test, y_test):
     res['confusion_matrix'] = conf_matrix
     res['sensibility'] = sens
     res['specificity'] = spec
-    res['standard_deviation'] = stddev(predicted)
+    
+    return res
+
+def cross_val(clf, X, y, folds=3):
+    scores = cross_val_score(clf, X, y, cv=folds)
+    
+    res = {}
+    
+    res['mean_accuracy'] = mean(scores)
+    res['standard_deviation'] = standard_deviation(scores)
     
     return res
     
