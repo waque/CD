@@ -1,11 +1,12 @@
 import pandas as pd
 from sklearn import tree
 from sklearn import preprocessing
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import accuracy_score, confusion_matrix, roc_curve, auc
 from sklearn import tree
 import graphviz
 from sklearn.ensemble import RandomForestClassifier
+from utils import *
 
 
 def sensibility(confusion_matrix):
@@ -114,6 +115,10 @@ def ex2():
         sum += accuracy_score(y_test, ex2_aux(clf, X_train, X_test, y_train, y_test))    
     print('Average Accuracy random forest default' + str(sum/100))
 
+    scores = cross_val_score(clf, X, y, cv=10)
+
+    print('Cross validation scores: {}'.format(scores))
+
     #default
     clf = RandomForestClassifier(n_estimators=15)
     sum = 0
@@ -121,8 +126,30 @@ def ex2():
         sum += accuracy_score(y_test, ex2_aux(clf, X_train, X_test, y_train, y_test))
     print('Average Accuracy random forest 50 trees' + str(sum/100))
 
+    scores = cross_val_score(clf, X, y, cv=10)
+
+    print('Cross validation scores: {}'.format(scores))
+
 
 def ex3():
+    
     credit = pd.read_csv('credit.csv')
+    X, y = split_training_data(credit, 'class')
+    X = transform_dataset(X)
+    X_train, X_test, y_train, y_test = split_train_test(X, y)
 
-    #REKT
+    #DecisionTreeClassifier
+    clf = tree.DecisionTreeClassifier(min_samples_split=4)
+    clf.fit(X_train, y_train)
+    predicted = clf.predict(X_test)
+    conf_matrix = confusion_matrix(y_test, predicted)
+    print('Accuracy decision tree {}'.format(accuracy_score(y_test, predicted)))
+    
+    #Random Forest
+    clf = RandomForestClassifier(n_estimators=15)
+    clf.fit(X_train, y_train)
+    predicted = clf.predict(X_test)
+    conf_matrix = confusion_matrix(y_test, predicted)
+    print('Accuracy random forest {}'.format(accuracy_score(y_test, predicted)))
+
+ex3()
