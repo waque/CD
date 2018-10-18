@@ -152,4 +152,7 @@ def ex3():
     conf_matrix = confusion_matrix(y_test, predicted)
     print('Accuracy random forest {}'.format(accuracy_score(y_test, predicted)))
 
-ex3()
+
+def ex4():
+
+    
