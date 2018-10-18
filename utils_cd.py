@@ -14,6 +14,18 @@ def specificity(confusion_matrix):
 
     return tn / (tn + fp)
 
+def standard_deviation(a):
+    return np.std(a)
+
+def sad(a, b):
+    return np.sum(abs(a - b))
+
+def ssd(a, b):
+    return np.sum(np.square(a - b))
+
+def correlation(a, b):
+    return np.corrcoef(np.array((a, b)))[0, 1]
+
 def transform_X(X):
     table = X
     for col in table:
@@ -26,15 +38,14 @@ def transform_X(X):
 def transform_y(y):
     return y.astype('category').cat.codes
 
-
-def split_training_data(dataset, y_name):
+def split_dataset(dataset, y_name):
     X = dataset.iloc[:, dataset.columns != y_name]
     y = dataset[y_name]
     
     return X, y
 
-def split_train_data_transformed(dataset, y_name):
-    X, y = split_training_data(dataset, y_name)
+def split_dataset_transformed(dataset, y_name):
+    X, y = split_dataset(dataset, y_name)
     return transform_X(X), transform_y(y)
 
 def split_train_test(X, y, test_size=0.3):
@@ -58,6 +69,7 @@ def classifier_statistics(clf, X_train, y_train, X_test, y_test):
     res['confusion_matrix'] = conf_matrix
     res['sensibility'] = sens
     res['specificity'] = spec
+    res['standard_deviation'] = stddev(predicted)
     
     return res
     
