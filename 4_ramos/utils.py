@@ -14,8 +14,8 @@ def specificity(confusion_matrix):
 
     return tn / (tn + fp)
 
-def transform_dataset(dataset):
-    table = dataset
+def transform_X(X):
+    table = X
     for col in table:
         if table[col].dtype == np.object:
             col_dummies = pd.get_dummies(table[col], prefix=col, drop_first=True)
@@ -23,12 +23,19 @@ def transform_dataset(dataset):
             table = table.drop(columns=col)
     return table
 
+def transform_y(y):
+    return y.astype('category').cat.codes
+
 
 def split_training_data(dataset, y_name):
     X = dataset.iloc[:, dataset.columns != y_name]
     y = dataset[y_name]
     
     return X, y
+
+def split_train_data_transformed(dataset, y_name):
+    X, y = split_training_data(dataset, y_name)
+    return transform_X(X), transform_y(y)
 
 def split_train_test(X, y, test_size=0.3):
     # returns X_train, X_test, y_train, y_test
