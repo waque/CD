@@ -43,3 +43,18 @@ accuracy: 0.8928571428571429
 sensibility: 1.0
 specificity: 0.0
 
+the classifier Naive bayes using  with green_data got the following results:
+accuracy: 0.9333333333333333
+sensibility: 0.95
+specificity: 0.9
+
+the classifier Naive bayes using  with hinselmann_data got the following results:
+accuracy: 0.8666666666666667
+sensibility: 0.9230769230769231
+specificity: 0.5
+
+the classifier Naive bayes using  with schiller_data got the following results:
+accuracy: 0.8928571428571429
+sensibility: 0.92
+specificity: 0.6666666666666666
+
