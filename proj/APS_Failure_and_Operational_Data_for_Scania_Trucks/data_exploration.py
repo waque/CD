@@ -14,7 +14,7 @@ from utils_cd import (
 )
 
 sns.set()
-sns.set_style("whitegrid")
+sns.set_style("darkgrid")
 sns.despine()
 
 CLASS = 'class'
@@ -63,12 +63,12 @@ print(aps_train[CLASS].value_counts())
 """
 train_hist = sns.countplot(x=CLASS, data=aps_train)
 train_hist.set(xlabel='Failure', ylabel='Count')
-#plt.savefig('unbalanced_train.pdf')
+#plt.savefig('images/unbalanced_train.pdf')
 plt.clf()
 
 test_hist = sns.countplot(x=CLASS, data=aps_test)
 test_hist.set(xlabel='Failure', ylabel='Count')
-#plt.savefig('unbalanced_test.pdf')
+#plt.savefig('images/unbalanced_test.pdf')
 plt.clf()
 
 """
@@ -119,6 +119,7 @@ values that don't vary accross instances
 
 I think it makes more sense to work with both datasets concatenated, so we can see 
 the overall thing.
+Check if instances are 'pos' before removing them.
 
 """
 
@@ -128,9 +129,61 @@ X = X.astype('float64')
 
 num_instances = X.shape[0]
 
-for col in aps:
-    print('Analyzing col {}'.format(col))
-    print()
-    std_dev = standard_deviation(aps[col])
-    num_missing = aps[col].isna().count()
+cols_missing = {}
+no_std_dev = []
+for col in X:
+    #print('Analyzing col {}'.format(col))
+    #print()
+    std_dev = standard_deviation(X[col])
+    #print('Standard deviation of attribute: {}'.format(std_dev))
+    if std_dev == 0:
+        no_std_dev.append(col)
     
+    num_missing = X[col].isna().sum()
+    percentage_missing = (num_missing / num_instances) * 100
+    cols_missing[col] = percentage_missing
+    #print('Percentage of missing: {}'.format(percentage_missing))
+    #print()
+    #print()
+  
+
+ATTRIBUTE = 'Attribute'
+PERCENTAGE = 'Percentage'
+    
+missing_df = pd.DataFrame(list(cols_missing.items()))
+missing_df.columns = [ATTRIBUTE,PERCENTAGE]
+missing_df = missing_df.sort_values([PERCENTAGE], ascending=False).reset_index(drop=True)
+# filter by high percentage
+missing_df = missing_df.loc[missing_df[PERCENTAGE] > 30]
+
+"""
+plt.figure(figsize=(missing_df.shape[1] + 5, 10))
+ax = sns.barplot(missing_df.index, missing_df[PERCENTAGE], color="steelblue")
+ax.set(xlabel=ATTRIBUTE, ylabel=PERCENTAGE)
+
+
+ax.set_xticklabels(missing_df[ATTRIBUTE])
+for item in ax.get_xticklabels(): item.set_rotation(45)
+plt.savefig('images/missing_values.pdf')
+plt.clf()
+"""
+
+"""
+There is a column, 'cd_000', which has no variance in it's values,
+this is, the values are all the same so it isn't representative of the data or 
+something like that. Drop this column
+
+"""
+
+high_percentage_missing = missing_df.loc[missing_df[PERCENTAGE] > 60][ATTRIBUTE].values
+
+print(high_percentage_missing)
+
+"""
+There are 7 columns with a missing percentage of over 70%
+Consider to drop this columns because they have too many different 
+missing values.
+"""
+
+X = X.drop(columns=high_percentage_missing)
+
