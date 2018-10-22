@@ -1,0 +1,45 @@
+the classifier KNN using k=2 with green_data got the following results:
+accuracy: 0.6666666666666666
+sensibility: 0.65
+specificity: 0.7
+
+the classifier KNN using k=3 with green_data got the following results:
+accuracy: 0.7333333333333333
+sensibility: 0.9
+specificity: 0.4
+
+the classifier KNN using k=10 with green_data got the following results:
+accuracy: 0.8333333333333334
+sensibility: 1.0
+specificity: 0.5
+
+the classifier KNN using k=2 with hinselmann_data got the following results:
+accuracy: 0.6333333333333333
+sensibility: 0.7307692307692307
+specificity: 0.0
+
+the classifier KNN using k=3 with hinselmann_data got the following results:
+accuracy: 0.8
+sensibility: 0.9230769230769231
+specificity: 0.0
+
+the classifier KNN using k=10 with hinselmann_data got the following results:
+accuracy: 0.8666666666666667
+sensibility: 1.0
+specificity: 0.0
+
+the classifier KNN using k=2 with schiller_data got the following results:
+accuracy: 0.6071428571428571
+sensibility: 0.6
+specificity: 0.6666666666666666
+
+the classifier KNN using k=3 with schiller_data got the following results:
+accuracy: 0.75
+sensibility: 0.8
+specificity: 0.3333333333333333
+
+the classifier KNN using k=10 with schiller_data got the following results:
+accuracy: 0.8928571428571429
+sensibility: 1.0
+specificity: 0.0
+
