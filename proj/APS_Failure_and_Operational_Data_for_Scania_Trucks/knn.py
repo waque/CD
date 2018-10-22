@@ -9,15 +9,10 @@ from utils_cd import (
         cross_val,
         print_dict,
         split_dataset,
-        classifier_statistics
+        classifier_statistics,
+        pprint
 )
 from sklearn.neighbors import KNeighborsClassifier
-
-def pprint(res):
-    print("\nthis classifier got the following results: \n")
-    print("accuracy: " + str(res['accuracy']) + "\n")
-    print("sensibility: " + str(res['sensibility']) + "\n")
-    print("specificity: " + str(res['specificity']) + "\n")
 
 
 aps_train = pd.read_csv('./aps_failure_training_set.csv',

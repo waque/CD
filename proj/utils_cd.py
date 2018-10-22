@@ -94,3 +94,15 @@ def cross_val(clf, X, y, folds=3):
     
     return res
     
+def pprint(res):
+    print("\nthis classifier got the following results: \n")
+    print("accuracy: " + str(res['accuracy']) + "\n")
+    print("sensibility: " + str(res['sensibility']) + "\n")
+    print("specificity: " + str(res['specificity']) + "\n")
+
+def export_file(res, data_name, classifier_name, extra_info):
+    f = open("dataset_info.txt", "a")
+    f.write("the classifier " + classifier_name + " using " + extra_info + " with " + data_name + " got the following results:" + "\n")
+    f.write("accuracy: " + str(res['accuracy']) + "\n")
+    f.write("sensibility: " + str(res['sensibility']) + "\n")
+    f.write("specificity: " + str(res['specificity']) + "\n\n")
