@@ -9,7 +9,8 @@ from utils_cd import (
         cross_val,
         print_dict,
         split_dataset,
-        classifier_statistics
+        classifier_statistics,
+        standard_deviation
 )
 
 sns.set()
@@ -62,13 +63,14 @@ print(aps_train[CLASS].value_counts())
 """
 train_hist = sns.countplot(x=CLASS, data=aps_train)
 train_hist.set(xlabel='Failure', ylabel='Count')
-plt.savefig('unbalanced_train.pdf')
+#plt.savefig('unbalanced_train.pdf')
 plt.clf()
 
 test_hist = sns.countplot(x=CLASS, data=aps_test)
 test_hist.set(xlabel='Failure', ylabel='Count')
-plt.savefig('unbalanced_test.pdf')
+#plt.savefig('unbalanced_test.pdf')
 plt.clf()
+
 """
 
 X_train, y_train = split_dataset(aps_train, CLASS)
@@ -92,7 +94,43 @@ X_test = X_test.astype('float64')
 """
 Data exploration:
     There are 170 columns, all of them are numeric values.
+    talk about training and test dataset instances
+    There is no information about the attributes real meaning
+    because they are anonymized for proprietary issues. We can't inffer attributes
+    because of this.
+    There are attributes that correspond to intervals, "bins",
+    discretize (?) this attributes.
+"""
 
 """
-    
+Problem:
+    Missing data.
+"""
+
+print('Number of rows after removing training missing values: {}'.format(aps_train.dropna().shape[0]))
+print('Number of rows after removing test missing values: {}'.format(aps_test.dropna().shape[0]))
+
+"""
+
+the number of instances available after removing the missing values is 
+very low comparing to the original dataset.
+Try to explore the dataset to remove columns that have to many missing values or 
+values that don't vary accross instances
+
+I think it makes more sense to work with both datasets concatenated, so we can see 
+the overall thing.
+
+"""
+
+aps = pd.concat([aps_train, aps_test])
+X, y = split_dataset(aps, CLASS)
+X = X.astype('float64')
+
+num_instances = X.shape[0]
+
+for col in aps:
+    print('Analyzing col {}'.format(col))
+    print()
+    std_dev = standard_deviation(aps[col])
+    num_missing = aps[col].isna().count()
     
