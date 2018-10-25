@@ -1,0 +1,28 @@
+,Classifier,Measure,Value
+0,Gaussian,Accuracy,0.968
+1,Gaussian,Sensibility,0.8986666666666666
+2,Gaussian,Specificity,0.969664
+3,Multinomial,Accuracy,0.3135
+4,Multinomial,Sensibility,0.9946666666666667
+5,Multinomial,Specificity,0.297152
+6,Bernoulli,Accuracy,0.9016875
+7,Bernoulli,Sensibility,0.9253333333333333
+8,Bernoulli,Specificity,0.90112
+9,K Nearest Neighbors 3,Accuracy,0.9848125
+10,K Nearest Neighbors 3,Sensibility,0.5013333333333333
+11,K Nearest Neighbors 3,Specificity,0.996416
+12,K Nearest Neighbors 5,Accuracy,0.983875
+13,K Nearest Neighbors 5,Sensibility,0.44
+14,K Nearest Neighbors 5,Specificity,0.996928
+15,K Nearest Neighbors 10,Accuracy,0.9828125
+16,K Nearest Neighbors 10,Sensibility,0.352
+17,K Nearest Neighbors 10,Specificity,0.997952
+18,Random Forest 25,Accuracy,0.9918125
+19,Random Forest 25,Sensibility,0.712
+20,Random Forest 25,Specificity,0.998528
+21,Random Forest 50,Accuracy,0.99225
+22,Random Forest 50,Sensibility,0.712
+23,Random Forest 50,Specificity,0.998976
+24,Random Forest 100,Accuracy,0.99225
+25,Random Forest 100,Sensibility,0.72
+26,Random Forest 100,Specificity,0.998784

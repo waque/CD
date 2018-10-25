@@ -17,6 +17,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import GaussianNB, MultinomialNB, BernoulliNB
 from sklearn.impute import SimpleImputer
 
+sns.set(style="whitegrid")
+
 CLASS = 'class'
 
 orig_train = pd.read_csv('./aps_failure_training_set.csv',
@@ -43,21 +45,19 @@ X_test = imp.fit_transform(X_test)
 y_train = y_train.map({'pos': 1, 'neg': 0})
 y_test = y_test.map({'pos': 1, 'neg': 0})
 
+"""
 neighbors = [3, 5, 10]
 estimators = [25, 50, 100]
 
 naive_bayes = [(GaussianNB(), 'Gaussian'), (MultinomialNB(), 'Multinomial'), (BernoulliNB(), 'Bernoulli')]
-knns = [(KNeighborsClassifier(n_neighbors=x), '{}'.format(x)) for x in neighbors]
-random_forests = [(RandomForestClassifier(n_estimators=x), '{}'.format(x)) for x in estimators]
+knns = [(KNeighborsClassifier(n_neighbors=x), 'K Nearest Neighbors {}'.format(x)) for x in neighbors]
+random_forests = [(RandomForestClassifier(n_estimators=x), 'Random Forest {}'.format(x)) for x in estimators]
 
 classifiers = {'Naive Bayes': naive_bayes, 'K Nearest Neighbors': knns, 'Random Forest': random_forests}
-
 CLASSIFIER = 'Classifier'
-TYPE = 'Type/Parameter'
 
-accuracies = pd.DataFrame(columns=[CLASSIFIER, TYPE, 'Accuracy'])
-sens = pd.DataFrame(columns=[CLASSIFIER, TYPE, 'Sensibility', 'Specificity'])
-
+measures_dict = {}
+i = 0
 for model_type in classifiers:
     for specific in classifiers[model_type]:
         clf, parameter = specific
@@ -66,12 +66,49 @@ for model_type in classifiers:
         accuracy = res['accuracy']
         sensibility = res['sensibility']
         specificity = res['specificity']
+        measures_dict[i] = {CLASSIFIER: parameter, 'Measure': 'Accuracy', 'Value': accuracy}
+        i += 1
+        measures_dict[i] = {CLASSIFIER: parameter, 'Measure': 'Sensibility', 'Value': sensibility}
+        i += 1
+        measures_dict[i] = {CLASSIFIER: parameter, 'Measure': 'Specificity', 'Value': specificity}
+        i += 1
 
-        
 
-        accuracies = accuracies.append({CLASSIFIER: model_type, TYPE: parameter, 'Accuracy': accuracy}, ignore_index=True)
-        sens = sens.append({CLASSIFIER: model_type, TYPE: parameter, 'Sensibility': sensibility, 'Specificity': specificity}, ignore_index=True)
-
-ax = sns.barplot(x=CLASSIFIER, y='Accuracy', hue=TYPE, data=accuracies)
-plt.savefig('images/initial_accuracies.pdf')
+measures = pd.DataFrame.from_dict(measures_dict, "index")
+measures.to_csv('plot_data/initial_results.csv')
+plt.figure(figsize=(22,6))
+ax = sns.barplot(x=CLASSIFIER, y='Value', hue='Measure', data=measures)
+plt.savefig('images/initial_results.pdf')
 plt.clf()
+"""
+
+"""
+Maybe we should plot this with a roc curve
+
+Most of the classifiers didn't present good sensibility
+values, which in the domain of the problem is bad. We wish
+to detect the maximum number of true positives possible
+while maintaining a not too high value of false positives. 
+We will be using the bernoylli naive bayes classifier
+to test different preprocessing techniques as it
+presented the highest sensibility while still maintaining a 
+good value for the specificity.
+
+"""
+
+rows_na = orig_train.shape[0] - orig_train.dropna().shape[0]
+percentage = rows_na / orig_train.shape[0]
+print('Rows with missing values: {}'.format(orig_train.shape[0] - orig_train.dropna().shape[0]))
+print('Percentage of rows with missing values: {}'.format(percentage))
+
+"""
+
+The dataset has 99.015% of the instances containing missing
+values. We will have to find out the best way to treat this missing
+values to obtain the best results. We already have tested replacing
+missing values with 0. The other approaches we will be testing
+are replacing with the median, mean and most_frequent
+We will also be testing removing attributes with too many missing values
+and see if we obtain better results.
+
+"""
