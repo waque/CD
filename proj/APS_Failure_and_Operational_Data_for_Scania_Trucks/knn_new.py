@@ -3,7 +3,6 @@ import numpy as np
 import collections
 from data_exploration import get_data
 from imblearn.over_sampling import SMOTE
-from sklearn.ensemble import RandomForestClassifier
 import sys
 sys.path.append('..')
 from utils_cd import (
@@ -12,6 +11,7 @@ from utils_cd import (
         print_dict,
         split_dataset
 )
+from sklearn.neighbors import KNeighborsClassifier
 
 X, X_test, y, y_test = get_data(False)
 #X_train, X_test, y_train, y_test = split_train_test(X, y)
@@ -48,7 +48,7 @@ probably something is wrong here, the results seem to be too good
 """
 
 
-clf = RandomForestClassifier(n_estimators=100, random_state=42)
+clf = KNeighborsClassifier(n_neighbors=10)
 results = classifier_statistics(clf, X_train_res, X_test, y_train_res, y_test)
 
 print_dict(results, excluded_keys=['predicted'])
