@@ -10,12 +10,13 @@ from utils_cd import (
         print_dict,
         split_dataset,
         classifier_statistics,
-        standard_deviation
+        standard_deviation,
+        impute_values,
+        plot_results
 )
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import GaussianNB, MultinomialNB, BernoulliNB
-from sklearn.impute import SimpleImputer
 
 sns.set(style="whitegrid")
 
@@ -35,12 +36,10 @@ are similar or not.
 
 """
 
-imp = SimpleImputer(strategy="constant", fill_value=0)
-
 X_train, y_train = split_dataset(orig_train, CLASS)
 X_test, y_test = split_dataset(orig_test, CLASS)
-X_train = imp.fit_transform(X_train)
-X_test = imp.fit_transform(X_test)
+#X_train = imp.fit_transform(X_train)
+#X_test = imp.fit_transform(X_test)
 
 y_train = y_train.map({'pos': 1, 'neg': 0})
 y_test = y_test.map({'pos': 1, 'neg': 0})
@@ -112,3 +111,40 @@ We will also be testing removing attributes with too many missing values
 and see if we obtain better results.
 
 """
+
+X_train_orig, X_test_orig = impute_values(X_train, X_test, "constant", constant=0)
+X_train_mean, X_test_mean = impute_values(X_train, X_test, "mean")
+X_train_median, X_test_median = impute_values(X_train, X_test, "median")
+X_train_mfrequent, X_test_mfrequent = impute_values(X_train, X_test, "most_frequent")
+
+X_data = {'Original': (X_train_orig, X_test_orig), 'Mean': (X_train_mean, X_test_mean), 'Median': (X_train_median, X_test_median), 'Most Frequent': (X_train_mfrequent, X_test_mfrequent)}
+clf = BernoulliNB()
+plot_results(clf, X_data, y_train, y_test, filename='missing_imputation')
+
+"""
+
+After analysis of the results we can see that
+the best results are achieved with the original imputation.
+Even though the accuracy increases in the others the sensibility
+decreases. This is because of the unbalanced nature of the data,
+we could test this again after balancing the data to see if the results change.
+We will continue the preprocessing using the original missing values imputation.
+
+"""
+
+"""
+Still in the process of data cleaning we analyzed the dataset
+to check for attributes that add a high percentage of missing values
+or that didn't add any value for our model.
+We considered a treshold of 60% of missing values as a criteria
+to remove columns from the dataset. We also found a column which
+the value didn't vary and so it didn't add any information for our model
+so we removed it aswell.
+"""
+columns_to_remove = ['br_000', 'bq_000', 'bp_000', 'bo_000', 'ab_000', 'cr_000', 'bn_000', 'bm_000', 'cd_000']
+X_train_drop = X_train_orig.drop(columns=columns_to_remove)
+X_test_drop = X_test_orig.drop(columns=columns_to_remove)
+
+X_data = {'Original': (X_train_orig, X_test_orig), 'Removed Columns': (X_train_drop, X_test_drop)}
+plot_results(clf, X_data, y_train, y_test, filename='missing_imputation')
+
