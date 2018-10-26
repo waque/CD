@@ -111,7 +111,7 @@ We will also be testing removing attributes with too many missing values
 and see if we obtain better results.
 
 """
-
+"""
 X_train_orig, X_test_orig = impute_values(X_train, X_test, "constant", constant=0)
 X_train_mean, X_test_mean = impute_values(X_train, X_test, "mean")
 X_train_median, X_test_median = impute_values(X_train, X_test, "median")
@@ -120,7 +120,7 @@ X_train_mfrequent, X_test_mfrequent = impute_values(X_train, X_test, "most_frequ
 X_data = {'Original': (X_train_orig, X_test_orig), 'Mean': (X_train_mean, X_test_mean), 'Median': (X_train_median, X_test_median), 'Most Frequent': (X_train_mfrequent, X_test_mfrequent)}
 clf = BernoulliNB()
 plot_results(clf, X_data, y_train, y_test, filename='missing_imputation')
-
+"""
 """
 
 After analysis of the results we can see that
@@ -136,15 +136,33 @@ We will continue the preprocessing using the original missing values imputation.
 Still in the process of data cleaning we analyzed the dataset
 to check for attributes that add a high percentage of missing values
 or that didn't add any value for our model.
-We considered a treshold of 60% of missing values as a criteria
+We considered a treshold of 60% and 80%v of missing values as a criteria
 to remove columns from the dataset. We also found a column which
 the value didn't vary and so it didn't add any information for our model
 so we removed it aswell.
 """
+
+"""
+
 columns_to_remove = ['br_000', 'bq_000', 'bp_000', 'bo_000', 'ab_000', 'cr_000', 'bn_000', 'bm_000', 'cd_000']
-X_train_drop = X_train_orig.drop(columns=columns_to_remove)
-X_test_drop = X_test_orig.drop(columns=columns_to_remove)
+columns_to_remove2 = ['br_000', 'bq_000', 'cd_000']
 
-X_data = {'Original': (X_train_orig, X_test_orig), 'Removed Columns': (X_train_drop, X_test_drop)}
-plot_results(clf, X_data, y_train, y_test, filename='missing_imputation')
+X_train_drop = X_train.drop(columns=columns_to_remove)
+X_test_drop = X_test.drop(columns=columns_to_remove)
+X_train_drop, X_test_drop = impute_values(X_train_drop, X_test_drop, "constant", constant=0)
 
+X_train_drop2 = X_train.drop(columns=columns_to_remove2)
+X_test_drop2 = X_test.drop(columns=columns_to_remove2)
+X_train_drop2, X_test_drop2 = impute_values(X_train_drop2, X_test_drop2, "constant", constant=0)
+
+
+X_data = {'Original': (X_train_orig, X_test_orig), 'Removed Columns 60%': (X_train_drop, X_test_drop), 'Removed Columns 80%': (X_train_drop2, X_test_drop2)}
+clf = BernoulliNB()
+results = plot_results(clf, X_data, y_train, y_test, filename='removed_columns')
+"""
+
+
+"""
+After analyzing the values we can see that removing this columns
+wasn't benifical because we lost sensibility which is the most important metric for our problem
+"""
