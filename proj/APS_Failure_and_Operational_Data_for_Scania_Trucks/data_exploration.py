@@ -16,26 +16,31 @@ from utils_cd import (
 
 CLASS = 'class'
 
-def get_data():
+def get_data(fillna=True):
     aps_train = pd.read_csv('./aps_failure_training_set.csv',
                             skiprows=20,keep_default_na=False)
-    
-    
     aps_test = pd.read_csv('./aps_failure_test_set.csv',
                             skiprows=20,keep_default_na=False)
     aps_train.replace('na', np.nan, inplace=True)
     aps_test.replace('na', np.nan, inplace=True)
-    aps = pd.concat([aps_train, aps_test])
     columns_to_remove = ['br_000', 'bq_000', 'bp_000', 'bo_000', 'ab_000', 'cr_000', 'bn_000', 'bm_000', 'cd_000']
-    aps = aps.drop(columns=columns_to_remove)
-    aps = aps.dropna()
-    X, y = split_dataset(aps, CLASS)
+    aps_train = aps_train.drop(columns=columns_to_remove)
+    aps_test = aps_test.drop(columns=columns_to_remove)
+    if fillna:
+        aps_train = aps_train.fillna(-1)
+        aps_test = aps_test.fillna(-1)
+    X, y = split_dataset(aps_train, CLASS)
+    X_test, y_test = split_dataset(aps_test, CLASS)
     X = X.astype('float64')
+    X_test = X_test.astype('float64')
+    if not fillna:  
+        X = X.apply(lambda x: x.fillna(x.median()))
+        X_test = X_test.apply(lambda x: x.fillna(x.median()))
     y = y.map({'pos': 1, 'neg': 0})
+    y_test = y_test.map({'pos': 1, 'neg': 0})
     
-    return X, y
-    
-    
+    return X, X_test, y, y_test
+
 
 def explore():
     sns.set()
@@ -231,4 +236,11 @@ def explore():
     sns.heatmap(data=X.corr())
     plt.savefig('images/correlations.pdf')
     plt.clf()
+    """
+    
+    """
+    -analyze missing values, choose best
+    discretization
+    normalization
+    etc
     """

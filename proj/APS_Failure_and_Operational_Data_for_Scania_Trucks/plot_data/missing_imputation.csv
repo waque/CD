@@ -1,0 +1,13 @@
+,Technique,Measure,Value
+0,Original,Accuracy,0.9016875
+1,Original,Sensibility,0.9253333333333333
+2,Original,Specificity,0.90112
+3,Mean,Accuracy,0.9288125
+4,Mean,Sensibility,0.8053333333333333
+5,Mean,Specificity,0.931776
+6,Median,Accuracy,0.9261875
+7,Median,Sensibility,0.8453333333333334
+8,Median,Specificity,0.928128
+9,Most Frequent,Accuracy,0.9115
+10,Most Frequent,Sensibility,0.8773333333333333
+11,Most Frequent,Specificity,0.91232

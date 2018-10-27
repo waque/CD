@@ -1,8 +1,11 @@
 import pandas as pd
 import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import accuracy_score, confusion_matrix
-
+from sklearn.impute import SimpleImputer
+from sklearn.base import clone
 
 def print_dict(dic, excluded_keys=[]):
     for key in dic:
@@ -107,6 +110,7 @@ def export_file(res, data_name, classifier_name, extra_info):
     f.write("sensibility: " + str(res['sensibility']) + "\n")
     f.write("specificity: " + str(res['specificity']) + "\n\n")
 
+
 def balance_dataset(dataset, classe):
     X, y = split_dataset_transformed(dataset, classe)
     X_train, X_test, y_train, y_test = split_train_test(X, y, test_size=0.3)
@@ -122,3 +126,51 @@ def balance_dataset(dataset, classe):
     #print("After OverSampling, counts of label '0': {}".format(sum(y_train_res==0)))
 
     return X_train, X_test, y_train, y_test, X_train_res, y_train_res
+
+def impute_values(X_train, X_test, strategy, missing_values=np.nan, constant=None):
+    if not constant:
+        imp = SimpleImputer(missing_values=missing_values, strategy=strategy)
+    else:
+        imp = SimpleImputer(strategy="constant", fill_value=constant)
+    
+    X_train = imp.fit_transform(X_train)
+    X_test = imp.fit_transform(X_test)
+    return X_train, X_test
+
+def plot_results(clf, X_data, y_train, y_test, technique='Technique', filename='result', style='whitegrid', figsize=(16,6)):
+    #clf = clone(clf)
+    
+    sns.set(style=style)
+    measures_dict = {}
+    i = 0
+    results = {}
+    for var in X_data:
+        X_train, X_test = X_data[var]
+        res = classifier_statistics(clf, X_train, X_test, y_train, y_test)
+        results[var] = res
+        print('Measuring {}'.format(var))
+        accuracy = res['accuracy']
+        sensibility = res['sensibility']
+        specificity = res['specificity']
+        measures_dict[i] = {technique: var, 'Measure': 'Accuracy', 'Value': accuracy}
+        i += 1
+        measures_dict[i] = {technique: var, 'Measure': 'Sensibility', 'Value': sensibility}
+        i += 1
+        measures_dict[i] = {technique: var, 'Measure': 'Specificity', 'Value': specificity}
+        i += 1
+
+
+    measures = pd.DataFrame.from_dict(measures_dict, "index")
+    measures.to_csv('plot_data/{}.csv'.format(filename))
+    plt.figure(figsize=figsize)
+    ax = sns.barplot(x=technique, y='Value', hue='Measure', data=measures)
+    
+    for p in ax.patches:
+        ax.text(p.get_x() + p.get_width()/2., p.get_height(), '{0:.3f}'.format(float(p.get_height())), 
+            fontsize=12, color='black', ha='center', va='bottom')
+    
+    plt.savefig('images/{}.pdf'.format(filename))
+    plt.clf()
+
+    return results
+

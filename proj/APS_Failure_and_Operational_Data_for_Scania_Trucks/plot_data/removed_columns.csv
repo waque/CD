@@ -1,0 +1,10 @@
+,Technique,Measure,Value
+0,Original,Accuracy,0.9016875
+1,Original,Sensibility,0.9253333333333333
+2,Original,Specificity,0.90112
+3,Removed Columns 60%,Accuracy,0.904125
+4,Removed Columns 60%,Sensibility,0.8826666666666667
+5,Removed Columns 60%,Specificity,0.90464
+6,Removed Columns 80%,Accuracy,0.90525
+7,Removed Columns 80%,Sensibility,0.9173333333333333
+8,Removed Columns 80%,Specificity,0.90496
