@@ -22,6 +22,16 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import GaussianNB, MultinomialNB, BernoulliNB
 from imblearn.over_sampling import SMOTE
 
+def score(conf_matrix):
+    cost1 = 10
+    cost2 = 500
+    fp = conf_matrix[0][1]
+    fn = conf_matrix[1][0]
+
+    total_cost = cost1*fp + cost2*fn
+
+    print('Total cost aachived: {}'.format(total_cost))
+
 sns.set(style="whitegrid")
 
 CLASS = 'class'
@@ -45,16 +55,20 @@ X_test, y_test = split_dataset(orig_test, CLASS)
 X_train, X_test= X_train.fillna(0), X_test.fillna(0)
 y_train = y_train.map({'pos': 1, 'neg': 0})
 y_test = y_test.map({'pos': 1, 'neg': 0})
-sm = SMOTE(random_state=12, ratio = 1.0)
-X_train, y_train = sm.fit_sample(X_train, y_train)
+balanced = False
 
 print('Balanced data: {}'.format(collections.Counter(y_train)))
 
 def get_data(X_train=X_train, X_test=X_test):
+    global y_train
+    global balanced
     high_corr = get_high_correlated_cols()
     X_train = X_train.drop(columns=high_corr)
     X_test = X_test.drop(columns=high_corr)
-    
+    if not balanced:
+        sm = SMOTE(random_state=12, ratio = 1.0)
+        X_train, y_train = sm.fit_sample(X_train, y_train)
+        balanced = True    
     
     return X_train, X_test
 #X_train = imp.fit_transform(X_train)
@@ -77,6 +91,9 @@ def compare_baseline_clf():
             clf, parameter = specific
             res = classifier_statistics(clf, X_train, X_test, y_train, y_test)
 
+            conf_matrix = res['confusion_matrix']
+            score(conf_matrix)
+
             accuracy = res['accuracy']
             sensibility = res['sensibility']
             specificity = res['specificity']
@@ -92,7 +109,7 @@ def compare_baseline_clf():
     measures.to_csv('plot_data/initial_results.csv')
     plt.figure(figsize=(22,6))
     ax = sns.barplot(x=CLASSIFIER, y='Value', hue='Measure', data=measures)
-    plt.savefig('images/initial_results.pdf')
+    #plt.savefig('images/initial_results.pdf')
     plt.clf()
 
 
@@ -320,8 +337,13 @@ def normalize_attributes():
     X_test_norm = normalizer.transform(X_test_orig)
 
     X_data = {'Original': (X_train_orig, X_test_orig), 'Normalized': (X_train_norm, X_test_norm)}
-    clf = BernoulliNB()
-    results = plot_results(clf, X_data, y_train, y_test, filename='normalized')
+    clf = RandomForestClassifier(n_estimators=100)
+    results = plot_results(clf, X_data, y_train, y_test, filename='normalized_after_balance_rf')
+
+    conf_matrix = results['Original']['confusion_matrix']
+    score(conf_matrix)
+    conf_matrix = results['Normalized']['confusion_matrix']
+    score(conf_matrix)
     
 
 """
@@ -338,9 +360,16 @@ def standardize():
     X_test_std = scaler.transform(X_test_orig)
 
     X_data = {'Original': (X_train_orig, X_test_orig), 'Standardized': (X_train_std, X_test_std)}
-    clf = BernoulliNB()
-    results = plot_results(clf, X_data, y_train, y_test, filename='standardized')
+    clf = RandomForestClassifier(n_estimators=100)
+    results = plot_results(clf, X_data, y_train, y_test, filename='standardized_after_balance_rf')
+
+    conf_matrix = results['Original']['confusion_matrix']
+    score(conf_matrix)
+    conf_matrix = results['Standardized']['confusion_matrix']
+    score(conf_matrix)
+
     print(results)
+    
 
 """
 
