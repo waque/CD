@@ -1,7 +1,7 @@
 ,Technique,Measure,Value
-0,Original,Accuracy,0.9016875
-1,Original,Sensibility,0.9253333333333333
-2,Original,Specificity,0.90112
-3,Normalized,Accuracy,0.9016875
-4,Normalized,Sensibility,0.9253333333333333
-5,Normalized,Specificity,0.90112
+0,Original,Accuracy,0.903125
+1,Original,Sensibility,0.928
+2,Original,Specificity,0.902528
+3,Normalized,Accuracy,0.903125
+4,Normalized,Sensibility,0.928
+5,Normalized,Specificity,0.902528

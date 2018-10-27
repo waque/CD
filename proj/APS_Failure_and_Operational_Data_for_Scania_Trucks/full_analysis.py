@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import collections
 import sys
 sys.path.append('..')
 from utils_cd import (
@@ -19,10 +20,7 @@ from sklearn import preprocessing
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import GaussianNB, MultinomialNB, BernoulliNB
-
-def get_data(X_train, X_test):
-    
-    return X_train.fillna(0), X_test.fillna(0)
+from imblearn.over_sampling import SMOTE
 
 sns.set(style="whitegrid")
 
@@ -44,12 +42,23 @@ are similar or not.
 
 X_train, y_train = split_dataset(orig_train, CLASS)
 X_test, y_test = split_dataset(orig_test, CLASS)
-#X_train = imp.fit_transform(X_train)
-#X_test = imp.fit_transform(X_test)
-
+X_train, X_test= X_train.fillna(0), X_test.fillna(0)
 y_train = y_train.map({'pos': 1, 'neg': 0})
 y_test = y_test.map({'pos': 1, 'neg': 0})
+sm = SMOTE(random_state=12, ratio = 1.0)
+X_train, y_train = sm.fit_sample(X_train, y_train)
 
+print('Balanced data: {}'.format(collections.Counter(y_train)))
+
+def get_data(X_train=X_train, X_test=X_test):
+    high_corr = get_high_correlated_cols()
+    X_train = X_train.drop(columns=high_corr)
+    X_test = X_test.drop(columns=high_corr)
+    
+    
+    return X_train, X_test
+#X_train = imp.fit_transform(X_train)
+#X_test = imp.fit_transform(X_test)
 def compare_baseline_clf():
     neighbors = [3, 5, 10]
     estimators = [25, 50, 100]
@@ -203,11 +212,11 @@ def get_high_correlated_cols():
     cols = []
 
     for attr1, attr2 in top.index.to_series().values:
-        print('Attribute {} and {} are highly correlated'.format(attr1, attr2))
+        #print('Attribute {} and {} are highly correlated'.format(attr1, attr2))
         missing1 = X_train[attr1].isna().sum()
         missing2 = X_train[attr2].isna().sum()
 
-        print ('Missing values: {} - {}, {} - {} '.format(attr1, missing1, attr2, missing2))
+        #print ('Missing values: {} - {}, {} - {} '.format(attr1, missing1, attr2, missing2))
 
         if missing1 > missing2:
             cols.append(attr1)
@@ -269,7 +278,7 @@ so we removed it aswell.
 """
 
 def column_removal():
-    X_train_orig, X_test_orig = get_data(X_train, X_test)
+    X_train_orig, X_test_orig = get_data()
 
     columns_to_remove = ['br_000', 'bq_000', 'bp_000', 'bo_000', 'ab_000', 'cr_000', 'bn_000', 'bm_000', 'cd_000']
     columns_to_remove2 = ['br_000', 'bq_000', 'cd_000']
@@ -298,12 +307,13 @@ wasn't beneficial because we lost sensibility which is the most important metric
 
 Data transformation:
 Normalization of attributes
-There were no changes with normalization using the bernoullinb
+There were no changes with normalization using the bernoullin
+other classifiers change
 
 """
 
 def normalize_attributes():
-    X_train_orig, X_test_orig = impute_values(X_train, X_test, "constant", constant=0)
+    X_train_orig, X_test_orig = get_data()
     normalizer = preprocessing.Normalizer().fit(X_train_orig)
 
     X_train_norm = normalizer.transform(X_train_orig)
@@ -312,3 +322,28 @@ def normalize_attributes():
     X_data = {'Original': (X_train_orig, X_test_orig), 'Normalized': (X_train_norm, X_test_norm)}
     clf = BernoulliNB()
     results = plot_results(clf, X_data, y_train, y_test, filename='normalized')
+    
+
+"""
+
+standardize distributions
+
+"""
+
+def standardize():
+    X_train_orig, X_test_orig = get_data()
+    scaler = preprocessing.StandardScaler().fit(X_train_orig)
+
+    X_train_std = scaler.transform(X_train_orig)
+    X_test_std = scaler.transform(X_test_orig)
+
+    X_data = {'Original': (X_train_orig, X_test_orig), 'Standardized': (X_train_std, X_test_std)}
+    clf = BernoulliNB()
+    results = plot_results(clf, X_data, y_train, y_test, filename='standardized')
+    print(results)
+
+"""
+
+balancing the datings
+
+"""
