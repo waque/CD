@@ -110,6 +110,23 @@ def export_file(res, data_name, classifier_name, extra_info):
     f.write("sensibility: " + str(res['sensibility']) + "\n")
     f.write("specificity: " + str(res['specificity']) + "\n\n")
 
+
+def balance_dataset(dataset, classe):
+    X, y = split_dataset_transformed(dataset, classe)
+    X_train, X_test, y_train, y_test = split_train_test(X, y, test_size=0.3)
+
+    sm = SMOTE(random_state=12, ratio = 1.0)
+
+    X_train_res, y_train_res = sm.fit_sample(X_train, y_train)
+
+    #print("Before OverSampling, counts of label '1': {}".format(sum(y_train==1)))
+    #print("Before OverSampling, counts of label '0': {} \n".format(sum(y_train==0)))
+
+    #print("After OverSampling, counts of label '1': {}".format(sum(y_train_res==1)))
+    #print("After OverSampling, counts of label '0': {}".format(sum(y_train_res==0)))
+
+    return X_train, X_test, y_train, y_test, X_train_res, y_train_res
+
 def impute_values(X_train, X_test, strategy, missing_values=np.nan, constant=None):
     if not constant:
         imp = SimpleImputer(missing_values=missing_values, strategy=strategy)
@@ -158,3 +175,4 @@ def plot_results(clf, X_data, y_train, y_test, technique='Technique', filename='
     plt.clf()
 
     return results
+
