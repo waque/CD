@@ -12,10 +12,13 @@ from utils_cd import (
 	classifier_statistics,
 	pprint,
 	split_train_test,
-	export_file
+	export_file,
+	balance_dataset
 )
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
+from imblearn.over_sampling import SMOTE
+sm = SMOTE(random_state=2)
 
 
 green_data = pd.read_csv('./green.csv')
@@ -43,5 +46,13 @@ def naive_bayes():
 		res = classifier_statistics(gnb, X_train, X_test, y_train, y_test) 
 		export_file(res, d[1], 'Naive bayes', "")
 
-naive_bayes()
 
+def naive_bayes_balenced():
+	gnb = GaussianNB()
+	for d in data:
+		X_train, X_test, y_train, y_test, X_train_res, y_train_res = balance_dataset(d, 'consensus')
+		res = classifier_statistics(gnb, X_train_res, X_test_res, y_train, y_test) 
+		export_file(res, d[1], 'Naive bayes balenced', "")
+
+
+naive_bayes_balenced()
