@@ -117,8 +117,10 @@ def impute_values(X_train, X_test, strategy, missing_values=np.nan, constant=Non
     else:
         imp = SimpleImputer(strategy="constant", fill_value=constant)
     
-    X_train = imp.fit_transform(X_train)
-    X_test = imp.fit_transform(X_test)
+    imp = imp.fit(X_train)
+
+    X_train = imp.transform(X_train)
+    X_test = imp.transform(X_test)
     return X_train, X_test
 
 def plot_results(clf, X_data, y_train, y_test, technique='Technique', filename='result', style='whitegrid', figsize=(16,6)):

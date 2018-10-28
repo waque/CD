@@ -1,0 +1,7 @@
+,Technique,Measure,Value
+0,Original,Accuracy,0.903125
+1,Original,Sensibility,0.928
+2,Original,Specificity,0.902528
+3,Standardized,Accuracy,0.8701875
+4,Standardized,Sensibility,0.9226666666666666
+5,Standardized,Specificity,0.868928

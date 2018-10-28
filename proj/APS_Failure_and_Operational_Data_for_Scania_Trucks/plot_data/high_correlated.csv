@@ -1,0 +1,7 @@
+,Technique,Measure,Value
+0,Original,Accuracy,0.9016875
+1,Original,Sensibility,0.9253333333333333
+2,Original,Specificity,0.90112
+3,Dropped high correlated cols,Accuracy,0.903125
+4,Dropped high correlated cols,Sensibility,0.928
+5,Dropped high correlated cols,Specificity,0.902528
