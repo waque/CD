@@ -77,3 +77,7 @@ def naive_bayes_balenced():
 		res = classifier_statistics(gnb, X_train_res, X_test, y_train_res.ravel(), y_test.ravel())
 		export_file(res, d[1], 'Naive bayes balenced', "")
 
+clf_RF = RandomForestClassifier(n_estimators=800, max_depth=4)
+X_train, X_test, y_train, y_test, X_train_res, y_train_res = balance_dataset(data[0][0], 'consensus')
+res = classifier_statistics(clf_RF, X_train, X_test, y_train, y_test)
+pprint(res)
