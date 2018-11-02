@@ -1,0 +1,7 @@
+,Technique,Classifier,Price
+0,Normalized,BernoulliNB,28710
+1,PCA,BernoulliNB,98440
+2,Normalized,RandomForestClassifier,66610
+3,PCA,RandomForestClassifier,107590
+4,Normalized,KNeighborsClassifier,109350
+5,PCA,KNeighborsClassifier,92380
