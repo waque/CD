@@ -7,6 +7,13 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.impute import SimpleImputer
 from sklearn.base import clone
 
+def aps_score(conf_matrix):
+    cost1 = 10
+    cost2 = 500
+    fp = conf_matrix[0][1]
+    fn = conf_matrix[1][0]
+
+    return cost1*fp + cost2*fn
 
 def print_dict(dic, excluded_keys=[]):
     for key in dic:
@@ -123,8 +130,41 @@ def impute_values(X_train, X_test, strategy, missing_values=np.nan, constant=Non
     X_test = imp.transform(X_test)
     return X_train, X_test
 
+
+def plot_comparison_results(clf_list, X_data, y_train, y_test, technique='Technique', filename='result', style='darkgrid', figsize=(16,6)):
+    sns.set(style=style)
+    measures_dict = {}
+    i = 0
+    results = {}
+    for var in X_data:
+        X_train, X_test = X_data[var]
+        for clf in clf_list:
+            clf = clone(clf)
+            res = classifier_statistics(clf, X_train, X_test, y_train, y_test)
+            score = aps_score(res['confusion_matrix'])
+            res['score'] = score
+            results[var] = res
+
+
+            measures_dict[i] = {technique: var, 'Classifier' type(clf).__name__: , 'Score': score}
+
+    measures = pd.DataFrame.from_dict(measures_dict, "index")
+    measures.to_csv('plot_data/{}.csv'.format(filename))
+    plt.figure(figsize=figsize)
+    ax = sns.barplot(x=technique, y='Value', hue='Classifier', data=measures)
+    
+    for p in ax.patches:
+        ax.text(p.get_x() + p.get_width()/2., p.get_height(), '{0:.3f}'.format(float(p.get_height())), 
+            fontsize=12, color='black', ha='center', va='bottom')
+    
+    plt.savefig('images/{}.pdf'.format(filename))
+    plt.clf()
+
+    return results
+        
+
 def plot_results(clf, X_data, y_train, y_test, technique='Technique', filename='result', style='whitegrid', figsize=(16,6)):
-    #clf = clone(clf)
+    clf = clone(clf)
     
     sns.set(style=style)
     measures_dict = {}
