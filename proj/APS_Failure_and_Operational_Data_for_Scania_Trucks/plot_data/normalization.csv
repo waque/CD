@@ -1,0 +1,7 @@
+,Technique,Classifier,Price
+0,Zero replace,BernoulliNB,28710
+1,Normalized,BernoulliNB,28710
+2,Mean,RandomForestClassifier,53170
+3,Normalized,RandomForestClassifier,68110
+4,Mean,KNeighborsClassifier,102930
+5,Normalized,KNeighborsClassifier,109350

@@ -162,33 +162,27 @@ def plot_comparison_results(clf_list, X_data, y_train, y_test, technique='Techni
     return results
 
 
-def plot_results(clf, X_data, y_train, y_test, technique='Technique', filename='result', style='whitegrid', figsize=(16,6)):
-    #clf = clone(clf)
-    
+def plot_results(clf_list, X_data, y_train, y_test, technique='Technique', filename='result', style='darkgrid', figsize=(16,6)):
     sns.set(style=style)
     measures_dict = {}
     i = 0
     results = {}
-    for var in X_data:
-        X_train, X_test = X_data[var]
-        res = classifier_statistics(clf, X_train, X_test, y_train, y_test)
-        results[var] = res
-        print('Measuring {}'.format(var))
-        accuracy = res['accuracy']
-        sensibility = res['sensibility']
-        specificity = res['specificity']
-        measures_dict[i] = {technique: var, 'Measure': 'Accuracy', 'Value': accuracy}
-        i += 1
-        measures_dict[i] = {technique: var, 'Measure': 'Sensibility', 'Value': sensibility}
-        i += 1
-        measures_dict[i] = {technique: var, 'Measure': 'Specificity', 'Value': specificity}
-        i += 1
+    for clf in clf_list:
+        clf = clone(clf)
+        for var in X_data[type(clf).__name__]:
+            X_train, X_test = X_data[type(clf).__name__][var]
+            res = classifier_statistics(clf, X_train, X_test, y_train, y_test)
+            score = aps_score(res['confusion_matrix'])
+            res['score'] = score
+            results[var] = res
+            measures_dict[i] = {technique: var, 'Classifier': type(clf).__name__, 'Price': score}
+            i += 1
 
 
     measures = pd.DataFrame.from_dict(measures_dict, "index")
     measures.to_csv('plot_data/{}.csv'.format(filename))
     plt.figure(figsize=figsize)
-    ax = sns.barplot(x=technique, y='Value', hue='Measure', data=measures)
+    ax = sns.barplot(x='Classifier', y='Price', hue=technique, data=measures)
     
     for p in ax.patches:
         ax.text(p.get_x() + p.get_width()/2., p.get_height(), '{0:.3f}'.format(float(p.get_height())), 
