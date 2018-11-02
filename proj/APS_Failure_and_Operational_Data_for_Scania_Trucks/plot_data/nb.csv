@@ -1,0 +1,10 @@
+,Type,Price,Transformation
+0,Gaussian,25990,Mean replace
+1,Gaussian,96890,Normalized
+2,Gaussian,92820,Balanced
+3,Multinomial,131890,Mean replace
+4,Multinomial,187500,Normalized
+5,Multinomial,35810,Balanced
+6,Bernoulli,28440,Mean replace
+7,Bernoulli,28440,Normalized
+8,Bernoulli,29650,Balanced

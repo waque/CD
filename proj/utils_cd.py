@@ -206,13 +206,14 @@ def plot_param_improv(classifiers, X_data, y_data, y_test, params, param='Parame
         clf = clone(clf)
         param_value = params[param_counter]
         param_counter += 1
+        results['{}={}'.format(param, param_value)] = {}
         for var in X_data:
             X_train, X_test = X_data[var]
             y_train = y_data[var]
             res = classifier_statistics(clf, X_train, X_test, y_train, y_test)
             score = aps_score(res['confusion_matrix'])
             res['score'] = score
-            results[var] = res
+            results['{}={}'.format(param, param_value)][var] = res
             measures_dict[i] = {param: param_value, 'Price': score, 'Transformation': var}
             i += 1
 
@@ -220,9 +221,9 @@ def plot_param_improv(classifiers, X_data, y_data, y_test, params, param='Parame
     measures.to_csv('plot_data/{}.csv'.format(filename))
     plt.figure(figsize=figsize)
     g = sns.FacetGrid(measures, hue="Transformation", size=8)
-    g.map(plt.scatter, param, "Price")
-    g.map(plt.plot, param, "Price")
-
+    g = g.map(plt.scatter, param, "Price").add_legend()
+    g = g.map(plt.plot, param, "Price")
+    g.axes[0,0].set_ylim(ymin=0)
     plt.savefig('images/{}.pdf'.format(filename))
     plt.clf()
 

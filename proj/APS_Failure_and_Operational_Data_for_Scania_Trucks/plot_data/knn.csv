@@ -1,0 +1,22 @@
+,k,Price,Transformation
+0,3,95570,Mean replace
+1,3,97950,Normalized
+2,3,37680,Balanced
+3,5,102930,Mean replace
+4,5,109350,Normalized
+5,5,30080,Balanced
+6,7,110450,Mean replace
+7,7,121350,Normalized
+8,7,25760,Balanced
+9,9,118400,Mean replace
+10,9,122830,Normalized
+11,9,21840,Balanced
+12,11,118380,Mean replace
+13,11,127780,Normalized
+14,11,20790,Balanced
+15,13,124860,Mean replace
+16,13,130770,Normalized
+17,13,20180,Balanced
+18,15,123360,Mean replace
+19,15,130260,Normalized
+20,15,20010,Balanced
