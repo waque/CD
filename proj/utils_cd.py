@@ -144,24 +144,23 @@ def plot_comparison_results(clf_list, X_data, y_train, y_test, technique='Techni
             score = aps_score(res['confusion_matrix'])
             res['score'] = score
             results[var] = res
-
-
-            measures_dict[i] = {technique: var, 'Classifier': type(clf).__name__ , 'Score': score}
-
+            measures_dict[i] = {technique: var, 'Classifier': type(clf).__name__, 'Price': score}
+            i += 1
+    
     measures = pd.DataFrame.from_dict(measures_dict, "index")
     measures.to_csv('plot_data/{}.csv'.format(filename))
     plt.figure(figsize=figsize)
-    ax = sns.barplot(x=technique, y='Score', hue='Classifier', data=measures)
+    ax = sns.barplot(x=technique, y='Price', hue='Classifier', data=measures)
     
     for p in ax.patches:
         ax.text(p.get_x() + p.get_width()/2., p.get_height(), '{0:.3f}'.format(float(p.get_height())), 
             fontsize=12, color='black', ha='center', va='bottom')
     
     plt.savefig('images/{}.pdf'.format(filename))
-    plt.show()
     plt.clf()
 
     return results
+
 
 def plot_results(clf, X_data, y_train, y_test, technique='Technique', filename='result', style='whitegrid', figsize=(16,6)):
     #clf = clone(clf)

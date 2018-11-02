@@ -1,2 +1,13 @@
 ,Technique,Classifier,Score
-0,Most Frequent,KNeighborsClassifier,105900
+0,Zero replace,BernoulliNB,28440
+1,Zero replace,RandomForestClassifier,55180
+2,Zero replace,KNeighborsClassifier,105900
+3,Mean,BernoulliNB,47630
+4,Mean,RandomForestClassifier,52650
+5,Mean,KNeighborsClassifier,102930
+6,Median,BernoulliNB,40280
+7,Median,RandomForestClassifier,53140
+8,Median,KNeighborsClassifier,103900
+9,Most Frequent,BernoulliNB,37240
+10,Most Frequent,RandomForestClassifier,55170
+11,Most Frequent,KNeighborsClassifier,105900

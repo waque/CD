@@ -140,14 +140,14 @@ def plot_comparison_results(clf_list, X_data, y_train, y_test, technique='Techni
         X_train, X_test = X_data[var]
         for clf in clf_list:
             clf = clone(clf)
+            print(type(clf).__name__)
             res = classifier_statistics(clf, X_train, X_test, y_train, y_test)
             score = aps_score(res['confusion_matrix'])
             res['score'] = score
             results[var] = res
-
-
-            measures_dict[i] = {technique: var, 'Classifier' type(clf).__name__: , 'Score': score}
-
+            measures_dict[i] = {technique: var, 'Classifier': type(clf).__name__, 'Score': score}
+            i += 1
+    
     measures = pd.DataFrame.from_dict(measures_dict, "index")
     measures.to_csv('plot_data/{}.csv'.format(filename))
     plt.figure(figsize=figsize)
