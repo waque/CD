@@ -196,3 +196,34 @@ def plot_results(clf_list, X_data, y_train, y_test, technique='Technique', filen
 
     return results
 
+def plot_param_improv(classifiers, X_data, y_data, y_test, params, param='Parameter', filename='result', style='darkgrid', figsize=(16,6)):
+    sns.set(style=style)
+    measures_dict = {}
+    i = 0
+    param_counter = 0
+    results = {}
+    for clf in classifiers:
+        clf = clone(clf)
+        param_value = params[param_counter]
+        param_counter += 1
+        for var in X_data:
+            X_train, X_test = X_data[var]
+            y_train = y_data[var]
+            res = classifier_statistics(clf, X_train, X_test, y_train, y_test)
+            score = aps_score(res['confusion_matrix'])
+            res['score'] = score
+            results[var] = res
+            measures_dict[i] = {param: param_value, 'Price': score, 'Transformation': var}
+            i += 1
+
+    measures = pd.DataFrame.from_dict(measures_dict, "index")
+    measures.to_csv('plot_data/{}.csv'.format(filename))
+    plt.figure(figsize=figsize)
+    g = sns.FacetGrid(measures, hue="Transformation", size=8)
+    g.map(plt.scatter, param, "Price")
+    g.map(plt.plot, param, "Price")
+
+    plt.savefig('images/{}.pdf'.format(filename))
+    plt.clf()
+
+    return results
