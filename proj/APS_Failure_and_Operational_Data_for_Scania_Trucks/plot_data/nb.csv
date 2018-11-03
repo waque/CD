@@ -1,10 +1,22 @@
-,Type,Price,Transformation
-0,Gaussian,25990,Mean replace
-1,Gaussian,96890,Normalized
-2,Gaussian,92820,Balanced
-3,Multinomial,131890,Mean replace
-4,Multinomial,187500,Normalized
-5,Multinomial,35810,Balanced
-6,Bernoulli,28440,Mean replace
-7,Bernoulli,28440,Normalized
-8,Bernoulli,29650,Balanced
+,Number Estimators,Price,Transformation
+0,10,62180,Mean replace
+1,10,78140,Normalized
+2,10,40260,Balanced
+3,50,52670,Mean replace
+4,50,66640,Normalized
+5,50,36330,Balanced
+6,100,55150,Mean replace
+7,100,67600,Normalized
+8,100,34830,Balanced
+9,200,53150,Mean replace
+10,200,65150,Normalized
+11,200,32280,Balanced
+12,300,52640,Mean replace
+13,300,63620,Normalized
+14,300,32360,Balanced
+15,400,52660,Mean replace
+16,400,65130,Normalized
+17,400,35360,Balanced
+18,500,53650,Mean replace
+19,500,65130,Normalized
+20,500,31770,Balanced
