@@ -169,6 +169,7 @@ def plot_results(clf_list, X_data, y_train, y_test, technique='Technique', filen
     results = {}
     for clf in clf_list:
         clf = clone(clf)
+        results[type(clf).__name__] = {}
         for var in X_data[type(clf).__name__]:
             X_train, X_test = X_data[type(clf).__name__][var]
             curr_y_train = y_train
@@ -177,7 +178,7 @@ def plot_results(clf_list, X_data, y_train, y_test, technique='Technique', filen
             res = classifier_statistics(clf, X_train, X_test, curr_y_train, y_test)
             score = aps_score(res['confusion_matrix'])
             res['score'] = score
-            results[var] = res
+            results[type(clf).__name__][var] = res
             measures_dict[i] = {technique: var, 'Classifier': type(clf).__name__, 'Price': score}
             i += 1
 
