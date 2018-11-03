@@ -14,7 +14,7 @@ from utils_cd import (
 	classifier_statistics,
 	pprint,
 	split_train_test,
-	export_file,
+	export_file
 )
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
