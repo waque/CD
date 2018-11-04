@@ -1,11 +1,13 @@
 import pandas as pd
 import numpy as np
 #import seaborn as sns
+from scipy import interp
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.model_selection import train_test_split, cross_val_score, KFold
 from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.impute import SimpleImputer
 from sklearn.base import clone
+from sklearn.metrics import roc_curve, auc
 
 
 def aps_score(conf_matrix):
@@ -35,9 +37,12 @@ def standard_deviation(a):
     return np.std(a)
 
 def mean(a):
+    a = np.nan_to_num(a)
     return np.mean(a)
 
 def sad(a, b):
+    a = np.nan_to_num(a)
+    b = np.nan_to_num(b)
     return np.sum(abs(a - b))
 
 def ssd(a, b):
@@ -77,13 +82,43 @@ def split_train_test(X, y, test_size=0.3):
     
     return train_test_split(X, y, test_size=test_size, random_state=42)
 
+
+def cv_classifier_statistics(clf, X, y, k=10):
+    res = {'predicted': [], 'accuracy': [], 'confusion_matrix': [], 'sensibility': [], 'specificity': [], 'auc': [], 'fpr': np.linspace(0, 1, 100), 'tpr': []}
+    clf = clone(clf)
+
+    kf = KFold(n_splits=k)
+    for train_index, test_index in kf.split(X):
+
+        X_train, X_test = X.iloc[train_index], X.iloc[test_index]
+        y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+
+        stats = classifier_statistics(clf, X_train, X_test, y_train, y_test)
+
+        fpr, tpr, _ = roc_curve(y[test_index], stats['predicted'])
+        roc_auc = auc(fpr, tpr)
+        res['tpr'].append(interp(res['fpr'], fpr, tpr))
+        res['auc'].append(roc_auc)
+
+        for stat in stats:
+            res[stat].append(stats[stat])
+        
+    res_cp = res.copy()
+    for key in res_cp:
+        if key != 'confusion_matrix' and key != 'predicted':
+            res['{}_mean'.format(key)] = (mean(res[key]), standard_deviation(res[key]))
+    
+    return res
+
 def classifier_statistics(clf, X_train, X_test, y_train, y_test):
     res = {}
+
+    clf = clone(clf)
     
     clf.fit(X_train, y_train)
     
     predicted = clf.predict(X_test)
-    conf_matrix = confusion_matrix(y_test, predicted)
+    conf_matrix = confusion_matrix(y_test, predicted, labels=[1.0, 0.0])
     acc_score = accuracy_score(y_test, predicted)
     sens = sensibility(conf_matrix)
     spec = specificity(conf_matrix)
