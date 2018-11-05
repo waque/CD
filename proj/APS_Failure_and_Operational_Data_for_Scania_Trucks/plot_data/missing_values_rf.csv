@@ -1,0 +1,5 @@
+,Technique,Classifier,Price
+0,Zero replace,RandomForestClassifier,9050
+1,Mean,RandomForestClassifier,7100
+2,Median,RandomForestClassifier,9570
+3,Most Frequent,RandomForestClassifier,9620

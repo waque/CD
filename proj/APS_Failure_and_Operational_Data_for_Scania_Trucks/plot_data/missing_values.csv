@@ -1,13 +1,17 @@
-,Technique,Classifier,Score
-0,Zero replace,BernoulliNB,28440
-1,Zero replace,RandomForestClassifier,55180
-2,Zero replace,KNeighborsClassifier,105900
-3,Mean,BernoulliNB,47630
-4,Mean,RandomForestClassifier,52650
-5,Mean,KNeighborsClassifier,102930
-6,Median,BernoulliNB,40280
-7,Median,RandomForestClassifier,53140
-8,Median,KNeighborsClassifier,103900
-9,Most Frequent,BernoulliNB,37240
-10,Most Frequent,RandomForestClassifier,55170
-11,Most Frequent,KNeighborsClassifier,105900
+,Technique,Classifier,Price
+0,Zero replace,GaussianNB,224930
+1,Zero replace,DecisionTreeClassifier,38170
+2,Zero replace,KNeighborsClassifier,22110
+3,Zero replace,RandomForestClassifier,8550
+4,Mean,GaussianNB,223430
+5,Mean,DecisionTreeClassifier,38160
+6,Mean,KNeighborsClassifier,23550
+7,Mean,RandomForestClassifier,8650
+8,Median,GaussianNB,222440
+9,Median,DecisionTreeClassifier,35080
+10,Median,KNeighborsClassifier,22070
+11,Median,RandomForestClassifier,9570
+12,Most Frequent,GaussianNB,235910
+13,Most Frequent,DecisionTreeClassifier,38630
+14,Most Frequent,KNeighborsClassifier,22110
+15,Most Frequent,RandomForestClassifier,10540

@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-#import seaborn as sns
+import seaborn as sns
 from scipy import interp
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split, cross_val_score, KFold
@@ -185,7 +185,7 @@ def plot_comparison_results(clf_list, X_data, y_train, y_test, technique='Techni
     measures = pd.DataFrame.from_dict(measures_dict, "index")
     measures.to_csv('plot_data/{}.csv'.format(filename))
     plt.figure(figsize=figsize)
-    ax = sns.barplot(x=technique, y='Price', hue='Classifier', data=measures)
+    ax = sns.barplot(x='Classifier', y='Price', hue=technique, data=measures)
     
     for p in ax.patches:
         ax.text(p.get_x() + p.get_width()/2., p.get_height(), '{0:.3f}'.format(float(p.get_height())), 
