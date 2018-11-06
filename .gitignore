@@ -4,7 +4,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+.~lock.*
 .vscode
 # C extensions
 *.so

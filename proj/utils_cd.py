@@ -118,7 +118,7 @@ def classifier_statistics(clf, X_train, X_test, y_train, y_test):
     clf.fit(X_train, y_train)
     
     predicted = clf.predict(X_test)
-    conf_matrix = confusion_matrix(y_test, predicted, labels=[1.0, 0.0])
+    conf_matrix = confusion_matrix(y_test, predicted, labels=[0.0, 1.0])
     acc_score = accuracy_score(y_test, predicted)
     sens = sensibility(conf_matrix)
     spec = specificity(conf_matrix)
@@ -173,12 +173,13 @@ def plot_comparison_results(clf_list, X_data, y_train, y_test, technique='Techni
     results = {}
     for var in X_data:
         X_train, X_test = X_data[var]
+        results[var] = {}
         for clf in clf_list:
             clf = clone(clf)
             res = classifier_statistics(clf, X_train, X_test, y_train, y_test)
             score = aps_score(res['confusion_matrix'])
             res['score'] = score
-            results[var] = res
+            results[var][type(clf).__name__] = res
             measures_dict[i] = {technique: var, 'Classifier': type(clf).__name__, 'Price': score}
             i += 1
     
@@ -189,13 +190,26 @@ def plot_comparison_results(clf_list, X_data, y_train, y_test, technique='Techni
     
     for p in ax.patches:
         ax.text(p.get_x() + p.get_width()/2., p.get_height(), '{0:.3f}'.format(float(p.get_height())), 
-            fontsize=12, color='black', ha='center', va='bottom')
+            fontsize=10, color='black', ha='center', va='bottom')
     
     plt.savefig('images/{}.pdf'.format(filename))
     plt.clf()
 
     return results
 
+def plot_results_from_csv(filename='filename', technique='Technique', figsize=(16, 6)):
+    measures = pd.read_csv('plot_data/{}.csv'.format(filename))
+    plt.figure(figsize=figsize)
+    ax = sns.barplot(x='Classifier', y='Price', hue=technique, data=measures)
+    
+    for p in ax.patches:
+        ax.text(p.get_x() + p.get_width()/2., p.get_height(), '{0:.3f}'.format(float(p.get_height())), 
+            fontsize=8, color='black', ha='center', va='bottom')
+    
+    plt.savefig('images/{}.pdf'.format(filename))
+    plt.clf()
+
+    return measures
 
 def plot_results(clf_list, X_data, y_train, y_test, technique='Technique', filename='result', style='darkgrid', figsize=(16,6)):
     sns.set(style=style)
