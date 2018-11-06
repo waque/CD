@@ -110,6 +110,13 @@ def cv_classifier_statistics(clf, X, y, k=10):
     
     return res
 
+
+def aps_classifier_statistics(clf, X_train, X_test, y_train, y_test):
+    res = classifier_statistics(clf, X_train, X_test, y_train, y_test)
+    res['score'] = aps_score(res['confusion_matrix'])
+
+    return res
+
 def classifier_statistics(clf, X_train, X_test, y_train, y_test):
     res = {}
 
