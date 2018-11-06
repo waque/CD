@@ -1,0 +1,5 @@
+,Price,Transformation
+0,23740,Baseline
+1,23280,Drop cd_000
+2,22910,PCA Attributes
+3,18530,Undersampling 70-30
