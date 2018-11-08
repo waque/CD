@@ -1,0 +1,61 @@
+,Price,Transformation,Min Samples to Split
+0,57130,Baseline,5
+1,56620,Baseline,10
+2,59700,Baseline,15
+3,63100,Baseline,20
+4,65560,Baseline,25
+5,65630,Baseline,30
+6,68020,Baseline,35
+7,67520,Baseline,40
+8,69990,Baseline,45
+9,69490,Baseline,50
+10,81900,Baseline,100
+11,90410,Baseline,200
+12,85180,Baseline,300
+13,85190,Baseline,400
+14,85180,Baseline,500
+15,85200,Baseline,600
+16,85170,Baseline,700
+17,85170,Baseline,800
+18,86180,Baseline,900
+19,91140,Baseline,1000
+20,26050,Undersample 70-30,5
+21,25390,Undersample 70-30,10
+22,26800,Undersample 70-30,15
+23,26320,Undersample 70-30,20
+24,26830,Undersample 70-30,25
+25,27190,Undersample 70-30,30
+26,29220,Undersample 70-30,35
+27,28770,Undersample 70-30,40
+28,28470,Undersample 70-30,45
+29,28310,Undersample 70-30,50
+30,16700,Undersample 70-30,100
+31,16800,Undersample 70-30,200
+32,15820,Undersample 70-30,300
+33,15830,Undersample 70-30,400
+34,15960,Undersample 70-30,500
+35,12620,Undersample 70-30,600
+36,12620,Undersample 70-30,700
+37,12620,Undersample 70-30,800
+38,12420,Undersample 70-30,900
+39,12420,Undersample 70-30,1000
+40,14810,Missing Values Heuristic,5
+41,14150,Missing Values Heuristic,10
+42,14360,Missing Values Heuristic,15
+43,14990,Missing Values Heuristic,20
+44,13130,Missing Values Heuristic,25
+45,12340,Missing Values Heuristic,30
+46,15870,Missing Values Heuristic,35
+47,15850,Missing Values Heuristic,40
+48,15780,Missing Values Heuristic,45
+49,15910,Missing Values Heuristic,50
+50,14920,Missing Values Heuristic,100
+51,11620,Missing Values Heuristic,200
+52,11620,Missing Values Heuristic,300
+53,11620,Missing Values Heuristic,400
+54,11650,Missing Values Heuristic,500
+55,11650,Missing Values Heuristic,600
+56,11650,Missing Values Heuristic,700
+57,11650,Missing Values Heuristic,800
+58,11650,Missing Values Heuristic,900
+59,11620,Missing Values Heuristic,1000
