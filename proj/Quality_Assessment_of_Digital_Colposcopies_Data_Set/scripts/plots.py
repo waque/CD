@@ -98,6 +98,9 @@ measures = pd.DataFrame.from_dict(measures, "index")
 measures.to_csv('../plot_data/{}.csv'.format('super_dateset'))
 """
 
+"""
+# explorar3 datasets juntos + SMOTE
+
 #balance dataset
 X_train_super, X_test_super, y_train_super, y_test_super, X_train_res_super, y_train_res_super = balance_dataset(super_table, 'consensus')
 results = {}
@@ -120,10 +123,44 @@ for clf in results:
         
 measures = pd.DataFrame.from_dict(measures, "index")
 measures.to_csv('../plot_data/{}.csv'.format('super_dateset_balanced'))
+"""
+
 
 """
-Melhores resultados até agora!
+Melhores resultados até agora! Os 3 datasets juntos + SMOTE
 0,BernoulliNB,Accuracy,0.9310344827586207
 1,BernoulliNB,Sensibility,0.9508196721311475
 2,BernoulliNB,Specificity,0.8846153846153846
+"""
+
+"""
+explorar 3 datasets juntos + SMOTE + normalização!
+"""
+
+X_train_super, X_test_super, y_train_super, y_test_super, X_train_res_super, y_train_res_super = balance_dataset(super_table, 'consensus')
+X_train_norm, X_test_norm = normalize(X_train_res_super, X_test_super)
+
+results = {}
+
+for clf in base_clfs:
+    clf_name = type(clf).__name__
+    stats = classifier_statistics(clf, X_train_norm, X_test_norm, y_train_res_super, y_test_super)
+    results[clf_name] = stats
+
+measures = {}
+i = 0
+for clf in results:
+    clf_res = results[clf]
+    measures[i] = {'Classifier': clf, 'Measure': 'Accuracy', 'Value': clf_res['accuracy']}
+    i += 1
+    measures[i] = {'Classifier': clf, 'Measure': 'Sensibility', 'Value': clf_res['sensibility']}
+    i += 1
+    measures[i] = {'Classifier': clf, 'Measure': 'Specificity', 'Value': clf_res['specificity']}
+    i += 1
+        
+measures = pd.DataFrame.from_dict(measures, "index")
+measures.to_csv('../plot_data/{}.csv'.format('super_dateset_balanced_normalized'))
+
+"""
+Mesmos resultados no melhor classificador visto que é um classificador probabilistico
 """

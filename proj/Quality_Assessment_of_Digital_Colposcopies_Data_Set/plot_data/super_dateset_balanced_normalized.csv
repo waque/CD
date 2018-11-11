@@ -1,0 +1,13 @@
+,Classifier,Measure,Value
+0,BernoulliNB,Accuracy,0.9310344827586207
+1,BernoulliNB,Sensibility,0.9508196721311475
+2,BernoulliNB,Specificity,0.8846153846153846
+3,DecisionTreeClassifier,Accuracy,0.8045977011494253
+4,DecisionTreeClassifier,Sensibility,0.8688524590163934
+5,DecisionTreeClassifier,Specificity,0.6538461538461539
+6,KNeighborsClassifier,Accuracy,0.632183908045977
+7,KNeighborsClassifier,Sensibility,0.639344262295082
+8,KNeighborsClassifier,Specificity,0.6153846153846154
+9,RandomForestClassifier,Accuracy,0.9080459770114943
+10,RandomForestClassifier,Sensibility,0.9836065573770492
+11,RandomForestClassifier,Specificity,0.7307692307692307
