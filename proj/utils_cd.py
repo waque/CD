@@ -85,7 +85,7 @@ def split_train_test(X, y, test_size=0.3):
 
 def cv_classifier_statistics(clf, X, y, k=10):
     res = {'predicted': [], 'accuracy': [], 'confusion_matrix': [], 'sensibility': [], 'specificity': [], 'auc': [], 'fpr': np.linspace(0, 1, 100), 'tpr': []}
-    
+    clf = clone(clf)
 
     kf = KFold(n_splits=k)
     for train_index, test_index in kf.split(X):
