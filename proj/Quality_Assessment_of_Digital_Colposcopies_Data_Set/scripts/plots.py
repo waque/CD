@@ -17,6 +17,7 @@ from utils_cd import (
         classifier_statistics,
         cv_classifier_statistics
 )
+from sklearn.feature_selection import mutual_info_classif, f_classif, SelectKBest
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -137,6 +138,8 @@ Melhores resultados até agora! Os 3 datasets juntos + SMOTE
 explorar 3 datasets juntos + SMOTE + normalização!
 """
 
+"""
+
 X_train_super, X_test_super, y_train_super, y_test_super, X_train_res_super, y_train_res_super = balance_dataset(super_table, 'consensus')
 X_train_norm, X_test_norm = normalize(X_train_res_super, X_test_super)
 
@@ -160,7 +163,48 @@ for clf in results:
         
 measures = pd.DataFrame.from_dict(measures, "index")
 measures.to_csv('../plot_data/{}.csv'.format('super_dateset_balanced_normalized'))
-
+"""
 """
 Mesmos resultados no melhor classificador visto que é um classificador probabilistico
 """
+
+def getKBest(X, y, score_func=f_classif, k=10):
+    k_best = SelectKBest(score_func=score_func, k=10).fit(X, y)
+
+    idxs = k_best.get_support(indices=True)
+    X = X.iloc[:,idxs]
+    return X
+
+
+"""
+testar KBest
+"""
+X, y = split_dataset(super_table, CLASS)
+X = getKBest(X, y)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
+
+sm = SMOTE(random_state=2)
+
+X_train_res, y_train_res = sm.fit_sample(X_train, y_train.ravel())
+
+results = {}
+
+for clf in base_clfs:
+    clf_name = type(clf).__name__
+    stats = classifier_statistics(clf, X_train_res, X_test, y_train_res, y_test)
+    results[clf_name] = stats
+
+measures = {}
+i = 0
+for clf in results:
+    clf_res = results[clf]
+    measures[i] = {'Classifier': clf, 'Measure': 'Accuracy', 'Value': clf_res['accuracy']}
+    i += 1
+    measures[i] = {'Classifier': clf, 'Measure': 'Sensibility', 'Value': clf_res['sensibility']}
+    i += 1
+    measures[i] = {'Classifier': clf, 'Measure': 'Specificity', 'Value': clf_res['specificity']}
+    i += 1
+        
+measures = pd.DataFrame.from_dict(measures, "index")
+measures.to_csv('../plot_data/{}.csv'.format('super_dateset_balanced_KBest'))
