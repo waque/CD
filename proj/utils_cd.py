@@ -135,6 +135,10 @@ def classifier_statistics(clf, X_train, X_test, y_train, y_test):
     res['confusion_matrix'] = conf_matrix
     res['sensibility'] = sens
     res['specificity'] = spec
+    fpr, tpr, _ = roc_curve(y_test, predicted)
+    roc_auc = auc(fpr, tpr)
+    res['auc'] = roc_auc
+    
     res['clf'] = clf
     
     return res
