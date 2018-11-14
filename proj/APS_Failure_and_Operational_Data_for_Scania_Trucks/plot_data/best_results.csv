@@ -1,0 +1,5 @@
+,Price,Classifier
+0,13290,Naive Bayes
+1,13370,KNN
+2,10680,Decision Tree
+3,10720,Random Forest
