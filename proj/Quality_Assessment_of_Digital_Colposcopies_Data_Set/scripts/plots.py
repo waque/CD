@@ -205,6 +205,8 @@ for clf in results:
     i += 1
     measures[i] = {'Classifier': clf, 'Measure': 'Specificity', 'Value': clf_res['specificity']}
     i += 1
-        
+    measures[i] = {'Classifier': clf, 'Measure': 'auc', 'Value': clf_res['auc']}
+    i += 1
+
 measures = pd.DataFrame.from_dict(measures, "index")
 measures.to_csv('../plot_data/{}.csv'.format('super_dateset_balanced_KBest'))
