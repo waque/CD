@@ -1,0 +1,18 @@
+,antecedents,consequents,support,lift
+8,"frozenset({'hsv_cervix_v_mean:[-0.001, 68.538]'})","frozenset({'rgb_cervix_b_mean_plus_std:[-0.001, 60.116]', 'hsv_total_v_mean:[0.377, 86.795]'})",0.21254355400696864,3.1084872159090913
+16,"frozenset({'hsv_cervix_v_std:[-0.001, 33.421]', 'hsv_cervix_v_mean:[-0.001, 68.538]'})","frozenset({'rgb_cervix_b_mean_plus_std:[-0.001, 60.116]', 'hsv_total_v_mean:[0.377, 86.795]'})",0.18466898954703834,3.0866477272727275
+11,"frozenset({'rgb_cervix_b_mean_plus_std:[-0.001, 60.116]', 'fit_cervix_hull_rate:[0.982, 1.016]'})","frozenset({'hsv_total_v_mean:[0.377, 86.795]'})",0.156794425087108,3.086021505376344
+3,"frozenset({'hsv_cervix_v_mean:[-0.001, 68.538]'})","frozenset({'hsv_total_v_mean:[0.377, 86.795]'})",0.21254355400696864,2.941364247311828
+6,"frozenset({'rgb_cervix_b_mean_plus_std:[-0.001, 60.116]', 'hsv_cervix_v_mean:[-0.001, 68.538]'})","frozenset({'hsv_total_v_mean:[0.377, 86.795]'})",0.21254355400696864,2.941364247311828
+13,"frozenset({'hsv_cervix_v_std:[-0.001, 33.421]', 'hsv_cervix_v_mean:[-0.001, 68.538]'})","frozenset({'hsv_total_v_mean:[0.377, 86.795]'})",0.18466898954703834,2.9206989247311825
+14,"frozenset({'hsv_cervix_v_std:[-0.001, 33.421]', 'rgb_cervix_b_mean_plus_std:[-0.001, 60.116]', 'hsv_cervix_v_mean:[-0.001, 68.538]'})","frozenset({'hsv_total_v_mean:[0.377, 86.795]'})",0.18466898954703834,2.9206989247311825
+9,"frozenset({'hsv_cervix_v_std:[-0.001, 33.421]', 'rgb_cervix_b_mean_plus_std:[-0.001, 60.116]'})","frozenset({'hsv_total_v_mean:[0.377, 86.795]'})",0.21602787456445993,2.813725490196078
+2,"frozenset({'hsv_cervix_v_mean:[182.079, 233.48]'})","frozenset({'hsv_cervix_h_std:[3.037, 3.107]'})",0.156794425087108,2.517543859649123
+4,"frozenset({'hsv_cervix_s_mean:[192.482, 244.196]', 'hsv_total_v_mean:[0.377, 86.795]'})","frozenset({'rgb_cervix_b_mean_plus_std:[-0.001, 60.116]'})",0.156794425087108,2.064748201438849
+5,"frozenset({'hsv_cervix_v_std:[-0.001, 33.421]', 'hsv_cervix_v_mean:[-0.001, 68.538]'})","frozenset({'rgb_cervix_b_mean_plus_std:[-0.001, 60.116]'})",0.1951219512195122,2.064748201438849
+7,"frozenset({'hsv_total_v_mean:[0.377, 86.795]', 'hsv_cervix_v_mean:[-0.001, 68.538]'})","frozenset({'rgb_cervix_b_mean_plus_std:[-0.001, 60.116]'})",0.21254355400696864,2.064748201438849
+10,"frozenset({'hsv_cervix_v_std:[-0.001, 33.421]', 'hsv_total_v_mean:[0.377, 86.795]'})","frozenset({'rgb_cervix_b_mean_plus_std:[-0.001, 60.116]'})",0.21602787456445993,2.064748201438849
+12,"frozenset({'fit_cervix_hull_rate:[0.982, 1.016]', 'hsv_total_v_mean:[0.377, 86.795]'})","frozenset({'rgb_cervix_b_mean_plus_std:[-0.001, 60.116]'})",0.156794425087108,2.064748201438849
+15,"frozenset({'hsv_cervix_v_std:[-0.001, 33.421]', 'hsv_total_v_mean:[0.377, 86.795]', 'hsv_cervix_v_mean:[-0.001, 68.538]'})","frozenset({'rgb_cervix_b_mean_plus_std:[-0.001, 60.116]'})",0.18466898954703834,2.064748201438849
+0,"frozenset({'hsv_cervix_v_mean:[-0.001, 68.538]'})","frozenset({'rgb_cervix_b_mean_plus_std:[-0.001, 60.116]'})",0.2229965156794425,2.064748201438849
+1,"frozenset({'hsv_total_v_mean:[0.377, 86.795]'})","frozenset({'rgb_cervix_b_mean_plus_std:[-0.001, 60.116]'})",0.30662020905923343,1.9537402336195557
