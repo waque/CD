@@ -1,0 +1,11 @@
+,mean_test_score,std_test_score,params
+0,0.9975268817204301,0.0041570482404256655,"{'n_estimators': 18, 'min_samples_split': 74, 'max_depth': 14}"
+1,0.9963172043010753,0.007236166230273047,"{'n_estimators': 30, 'min_samples_split': 63, 'max_depth': 9}"
+2,0.9868413978494625,0.021753785283797285,"{'n_estimators': 5, 'min_samples_split': 23, 'max_depth': 10}"
+3,0.996263440860215,0.007483386271601323,"{'n_estimators': 10, 'min_samples_split': 69, 'max_depth': 5}"
+4,0.9953763440860215,0.007698019234510267,"{'n_estimators': 9, 'min_samples_split': 87, 'max_depth': 21}"
+5,0.996720430107527,0.006151698815902689,"{'n_estimators': 22, 'min_samples_split': 23, 'max_depth': 14}"
+6,0.9971236559139786,0.006224991638030704,"{'n_estimators': 26, 'min_samples_split': 15, 'max_depth': 14}"
+7,0.9963172043010753,0.007236166230273039,"{'n_estimators': 20, 'min_samples_split': 56, 'max_depth': 28}"
+8,0.9954301075268817,0.007250221851367947,"{'n_estimators': 10, 'min_samples_split': 49, 'max_depth': 14}"
+9,0.9878629032258065,0.021666952675639475,"{'n_estimators': 6, 'min_samples_split': 62, 'max_depth': 14}"
